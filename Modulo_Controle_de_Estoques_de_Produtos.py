@@ -1,21 +1,34 @@
+import pandas
+import os
+
 class ModuloControle:
     def __init__(self):
-        self.produtos = {
-            "gasolina": 0,
-            "alcool": 0,
-            "diesel": 0,
-            "energia_solar": 0
-        }
+        if not os.path.exists("estoque.csv"):
+
+            estoque = {
+                "gasolina": 0,
+                "alcool": 0,
+                "diesel": 0,
+                "energia_solar": 0
+            }
+            df = pandas.DataFrame([estoque])
+
+            df.to_csv("estoque.csv", index=False)
     
     # registrar a quantidade de produtos recebidos dos fornecedores
     def registrar(self, nome_produto, quantidade, compra):
 
+        estoque = pandas.read_csv("estoque.csv")
+
         # se for um reabastecimento, adiciona o valor
         if compra:
-            self.produtos[nome_produto] += quantidade
+            estoque[nome_produto] += quantidade  
+
         # se não, é uma venda, reduz a quantidade do produto
         else:
-            self.produtos[nome_produto] -= quantidade
+            estoque[nome_produto] -= quantidade
+        
+        estoque.to_csv("estoque.csv", index=False)
     
     # emitir alertas quando os níveis de estoque atigem um limite mínimo
     def emitir_alerta(self, nome_produto):
@@ -23,6 +36,8 @@ class ModuloControle:
     
     # atualizar automaticamente o estoque após cada venda ou serviço prestado
     def update(self, vendas):
+
+        estoque = pandas.read_csv("estoque.csv")
 
         # confere se houve alguma venda naquele 'loop'
         if vendas != {}:
@@ -34,7 +49,7 @@ class ModuloControle:
                 self.registrar(produto, quantidade, False)
 
                 # confere se o estoque chegou em um nível mínimo
-                if self.produtos[produto] < 5:
+                if estoque[produto][0] < 5:
                     self.emitir_alerta(produto)
         
 
@@ -42,8 +57,7 @@ controle_de_estoque = ModuloControle()
 
 
 controle_de_estoque.registrar("gasolina", 9, True)
-
-
 controle_de_estoque.update({"gasolina": 2})
-controle_de_estoque.update({"gasolina": 2})
+controle_de_estoque.registrar("diesel", 4, True)
+controle_de_estoque.update({"gasolina": 3})
 controle_de_estoque.update({"gasolina": 1})

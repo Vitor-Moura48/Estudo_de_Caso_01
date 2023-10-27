@@ -1,9 +1,8 @@
-import pandas
-import os
+from Sistemas.imports import *
 
 class ModuloControle:
     def __init__(self):
-        if not os.path.exists("estoque.csv"):
+        if not os.path.exists("Sistemas/estoque.csv"):
 
             estoque = {
                 "gasolina": 0,
@@ -13,12 +12,12 @@ class ModuloControle:
             }
             df = pandas.DataFrame([estoque])
 
-            df.to_csv("estoque.csv", index=False)
+            df.to_csv("Sistemas.estoque.csv", index=False)
     
     # registrar a quantidade de produtos recebidos dos fornecedores
     def registrar(self, nome_produto, quantidade, compra):
 
-        estoque = pandas.read_csv("estoque.csv")
+        estoque = pandas.read_csv("Sistemas/estoque.csv")
 
         # se for um reabastecimento, adiciona o valor
         if compra:
@@ -28,16 +27,17 @@ class ModuloControle:
         else:
             estoque[nome_produto] -= quantidade
         
-        estoque.to_csv("estoque.csv", index=False)
+        estoque.to_csv("Sistemas/estoque.csv", index=False)
     
     # emitir alertas quando os níveis de estoque atigem um limite mínimo
     def emitir_alerta(self, nome_produto):
-        print(f"{nome_produto}: Nível de estoque baixo!")
+        #print(f"{nome_produto}: Nível de estoque baixo!")
+        messagebox.showinfo(nome_produto, "Nível de estoque baixo!", icon="warning")
     
     # atualizar automaticamente o estoque após cada venda ou serviço prestado
     def update(self, vendas):
 
-        estoque = pandas.read_csv("estoque.csv")
+        estoque = pandas.read_csv("Sistemas/estoque.csv")
 
         # confere se houve alguma venda naquele 'loop'
         if vendas != {}:
@@ -55,9 +55,10 @@ class ModuloControle:
 
 controle_de_estoque = ModuloControle()
 
-
+'''
 controle_de_estoque.registrar("gasolina", 9, True)
 controle_de_estoque.update({"gasolina": 2})
 controle_de_estoque.registrar("diesel", 4, True)
 controle_de_estoque.update({"gasolina": 3})
 controle_de_estoque.update({"gasolina": 1})
+'''

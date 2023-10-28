@@ -16,6 +16,11 @@ def run():
         ]
 
         respostas = inquirer.prompt(perguntas)
+
+        # Verifique se as respostas são nulas
+        if respostas is None:
+            raise KeyboardInterrupt
+        
         opcao = respostas['opcao']
 
         # Aqui temos uma estrutura de decisão para cada opção do menu

@@ -1,38 +1,56 @@
 import inquirer
 from colorama import init, Fore, Style
 
-# Inicialize o colorama
 init()
 
-# Defina as cores que você deseja usar
+# Definição de cores
 cor_titulo = Fore.GREEN
 cor_pergunta = Fore.WHITE
 cor_resposta = Fore.MAGENTA
+cor_mensagem = Fore.YELLOW
+cor_mensagem_erro = Fore.RED
 
-# Imprima o título com a cor personalizada
-print(f'{cor_titulo}╔══════════════════════════════════════════════════════════╗')
-print(f'║                                                          ║')
-print(f'║          🌿 Sistema de Informação EcoEnergy 🌿           ║')
-print(f'║                                            v1.0.0        ║')
-print(f'║                                                          ║')
-print(f'╚══════════════════════════════════════════════════════════╝{Style.RESET_ALL}\n')
 
-# Crie uma pergunta com a cor personalizada
-pergunta = [
-    inquirer.List('opcao',
-                  message=f'Selecione o módulo que deseja acessar',
-                  choices=[
-                      (f'{cor_pergunta}1 - Módulo de Controle de Estoque de Produtos{Style.RESET_ALL}', '1'),
-                      (f'{cor_pergunta}2 - Módulo de Gerenciamento de Serviços Automotivos{Style.RESET_ALL}', '2'),
-                      (f'{cor_pergunta}3 - Módulo de Gestão de Mercearia{Style.RESET_ALL}', '3'),
-                      (f'{cor_pergunta}4 - Módulo de Monitoramento Energético{Style.RESET_ALL}', '4'),
-                      (f'{cor_pergunta}5 - Módulo de Loja de Conveniência{Style.RESET_ALL}', '5')
-                  ])
-]
+while True:
+    print(f'{cor_titulo}╔══════════════════════════════════════════════════════════╗')
+    print(f'║                                                          ║')
+    print(f'║          🌿 Sistema de Informação EcoEnergy 🌿           ║')
+    print(f'║                                            v1.0.0        ║')
+    print(f'║                                                          ║')
+    print(f'╚══════════════════════════════════════════════════════════╝{Style.RESET_ALL}\n')
 
-# Faça a pergunta e obtenha as respostas
-respostas = inquirer.prompt(pergunta)
-opcao = respostas['opcao']
+    pergunta = [
+        inquirer.List('opcao',
+                    message=f'Selecione o módulo que deseja acessar',
+                    choices=[
+                        (f'1 - Módulo de Controle de Estoque de Produtos', '1'),
+                        (f'2 - Módulo de Gerenciamento de Serviços Automotivos', '2'),
+                        (f'3 - Módulo de Gestão de Mercearia', '3'),
+                        (f'4 - Módulo de Monitoramento Energético', '4'),
+                        (f'5 - Módulo de Loja de Conveniência', '5'),
+                        (f'6 - Encerrar a Sessão no Sistema', '6')
+                    ])
+    ]
 
-# Imprima a resposta com a cor personalizada
-print(f'{cor_titulo}=>{Style.RESET_ALL} Você selecionou o môdulo: {cor_titulo}{opcao}{Style.RESET_ALL}\n')
+    respostas = inquirer.prompt(pergunta)
+    opcao = respostas['opcao']
+
+    print(f'{cor_titulo}=>{Style.RESET_ALL} Você selecionou a opção: {cor_titulo}{opcao}{Style.RESET_ALL}\n')
+
+    match opcao:
+        case '1':
+            from controller.modulo_controle_estoque_produtos_controller import run
+            run()
+        case '2':
+            print("Tese")
+        case '3':
+            print("Tese")
+        case '4':
+            print("Tese")
+        case '5':
+            print("Tese")
+        case '6':
+            print(f'{cor_titulo}👋 {cor_mensagem}Encerrando a sessão no sistema...{Style.RESET_ALL}')
+            break
+        case _:
+            print(f'{cor_mensagem_erro}❌ Ocorreu um erro estranho{Style.RESET_ALL}')

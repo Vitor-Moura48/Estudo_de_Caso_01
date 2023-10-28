@@ -2,7 +2,7 @@ import csv
 import requests
 import json
 
-class Moduloenergetico:
+class ModuloMonitoramentoEnergetico:
     def __init__(self, api_key):
         self.api_key = api_key
 
@@ -48,7 +48,7 @@ API_KEY = 'h1sZGSoHQjEe3MaoZ3GxMPeYPfLVMjnHd8fbphfD'
 
 url = f'https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key={API_KEY}&lat=40&lon=-105'
 
-gerenciamento = Moduloenergetico(API_KEY)
+gerenciamento = ModuloMonitoramentoEnergetico(API_KEY)
 incidencia_solar = gerenciamento.obter_incidencia_solar(url)
 
 if incidencia_solar:

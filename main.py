@@ -51,7 +51,8 @@ try:
             case '3':
                 print("Tese")
             case '4':
-                print("Tese")
+                from controller.modulo_monitoramento_energetico_controller import run
+                run()
             case '5':
                 print("Tese")
             case '6':

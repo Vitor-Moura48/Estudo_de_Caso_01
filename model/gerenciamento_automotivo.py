@@ -1,6 +1,6 @@
 import csv
 
-class ModuloGerenciamento:
+class ModuloGerenciamentoAutomotivo:
     def __init__(self):
         self.mecanicos = [['Anderson'],['roberto'],['junior']]
         self.registro = []

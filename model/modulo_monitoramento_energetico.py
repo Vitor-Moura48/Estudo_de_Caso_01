@@ -19,29 +19,29 @@ class ModuloMonitoramentoEnergetico:
             print(f"Erro ao decodificar resposta JSON: {e}")
             return None
 
-def calcular_producao_energia_solar(incidencia_solar, area_placa_solar, eficiencia_placa_solar):
-    producao_energia_solar = {}
-    for mes, incidencia in incidencia_solar.items():
-        producao = incidencia * area_placa_solar * eficiencia_placa_solar
-        producao_energia_solar[mes] = producao
-    return producao_energia_solar
+    def calcular_producao_energia_solar(self, incidencia_solar, area_placa_solar, eficiencia_placa_solar):
+        producao_energia_solar = {}
+        for mes, incidencia in incidencia_solar.items():
+            producao = incidencia * area_placa_solar * eficiencia_placa_solar
+            producao_energia_solar[mes] = producao
+        return producao_energia_solar
 
-def salvar_em_arquivo_csv(producao_solar):
-    with open('producao_energia.csv', 'w', newline='') as arquivo_csv:
-        escritor = csv.writer(arquivo_csv)
-        escritor.writerow(['Mês', 'Produção Solar (kWh)'])
+    def salvar_em_arquivo_csv(self, producao_solar):
+        with open('producao_energia.csv', 'w', newline='') as arquivo_csv:
+            escritor = csv.writer(arquivo_csv)
+            escritor.writerow(['Mês', 'Produção Solar (kWh)'])
+            for mes, producao in producao_solar.items():
+                producao_solar_mes = producao_solar[mes]
+                escritor.writerow([mes, f"{producao:.2f}"])
+
+    def verificar_producao(self, producao_solar):
         for mes, producao in producao_solar.items():
-            producao_solar_mes = producao_solar[mes]
-            escritor.writerow([mes, f"{producao:.2f}"])
+            if producao < 520:  # Limiar para baixa produção 
+                print(f"ALERTA: Baixa produção de energia no mês {mes} ({producao:.2f} kWh)")
 
-def verificar_producao(producao_solar):
-    for mes, producao in producao_solar.items():
-        if producao < 520:  # Limiar para baixa produção 
-            print(f"ALERTA: Baixa produção de energia no mês {mes} ({producao:.2f} kWh)")
-
-def detectar_falha(producao_solar):
-    if None in producao_solar.values():
-        print("ALERTA: Falha na obtenção dos dados de produção de energia.")
+    def detectar_falha(self, producao_solar):
+        if None in producao_solar.values():
+            print("ALERTA: Falha na obtenção dos dados de produção de energia.")
 
 # Chave da API
 API_KEY = 'h1sZGSoHQjEe3MaoZ3GxMPeYPfLVMjnHd8fbphfD'
@@ -55,11 +55,11 @@ if incidencia_solar:
     area_placa_solar = 600
     eficiencia_placa_solar = 0.15  # Eficiência da placa solar (exemplo)
 
-    producao_energia_solar = calcular_producao_energia_solar(incidencia_solar, area_placa_solar, eficiencia_placa_solar)
+    producao_energia_solar = gerenciamento.calcular_producao_energia_solar(incidencia_solar, area_placa_solar, eficiencia_placa_solar)
     
-    salvar_em_arquivo_csv(producao_energia_solar)
-    verificar_producao(producao_energia_solar)
-    detectar_falha(producao_energia_solar)
+    gerenciamento.salvar_em_arquivo_csv(producao_energia_solar)
+    gerenciamento.verificar_producao(producao_energia_solar)
+    gerenciamento.detectar_falha(producao_energia_solar)
     
     print("Produção de Energia Solar (kWh/mês):")
     for mes, producao in producao_energia_solar.items():

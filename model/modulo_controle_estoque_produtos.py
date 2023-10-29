@@ -15,7 +15,7 @@ class ModuloControleEstoqueProdutos:
             }
             df = pd.DataFrame([estoque])
 
-            df.to_csv(self.arquivo_csv, index=False, sep=';')
+            df.to_csv(self.arquivo_csv, index=False, sep=';', header=None)
     
     # registrar a quantidade de produtos recebidos dos fornecedores
     def registrar(self, nome_produto, quantidade, compra):
@@ -30,36 +30,21 @@ class ModuloControleEstoqueProdutos:
         else:
             estoque[nome_produto] -= quantidade
         
+        # confere se o estoque chegou em um nível mínimo
+        for produto in estoque.columns:
+            if estoque[produto][0] < 5:
+                self.emitir_alerta(produto)
+
         estoque.to_csv(self.arquivo_csv, index=False)
     
     # emitir alertas quando os níveis de estoque atigem um limite mínimo
     def emitir_alerta(self, nome_produto):
-        #print(f"{nome_produto}: Nível de estoque baixo!")
         print(f"{nome_produto}: Nível de estoque baixo!")
     
-    # atualizar automaticamente o estoque após cada venda ou serviço prestado
-    def update(self, vendas):
-
+    def listar_estoque(self):
         estoque = pd.read_csv(self.arquivo_csv)
+    
+        for produto in estoque.columns:
+            print(f"{produto}: {estoque[produto][0]}")
+        print()
 
-        # confere se houve alguma venda naquele 'loop'
-        if vendas != {}:
-            
-            # percorre as informações de cada produto vendido
-            for produto, quantidade in vendas.items():
-
-                # registra a venda
-                self.registrar(produto, quantidade, False)
-
-                # confere se o estoque chegou em um nível mínimo
-                if estoque[produto][0] < 5:
-                    self.emitir_alerta(produto)
-        
-
-'''
-controle_de_estoque.registrar("gasolina", 9, True)
-controle_de_estoque.update({"gasolina": 2})
-controle_de_estoque.registrar("diesel", 4, True)
-controle_de_estoque.update({"gasolina": 3})
-controle_de_estoque.update({"gasolina": 1})
-'''

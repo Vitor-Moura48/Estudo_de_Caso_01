@@ -4,7 +4,7 @@ import json
 
 class ModuloMonitoramentoEnergetico:
     def __init__(self):
-        r = 1
+        url = f'https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key={API_KEY}&lat=40&lon=-105'
 
     def obter_incidencia_solar(self, url):
         try:
@@ -46,7 +46,7 @@ class ModuloMonitoramentoEnergetico:
     def salvar_em_arquivo_csv(self, producao_solar):
         with open('producao_energia.csv', 'w', newline='') as arquivo_csv:
             escritor = csv.writer(arquivo_csv)
-            escritor.writerow(['Mês', 'Produção Solar (kWh)'])
+            escritor.writerow(['Mes', 'Producao Solar (kWh)'])
             for mes, producao in producao_solar.items():
                 producao_solar_mes = producao_solar[mes]
                 escritor.writerow([mes, f"{producao:.2f}"])

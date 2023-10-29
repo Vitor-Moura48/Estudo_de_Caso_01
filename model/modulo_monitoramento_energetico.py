@@ -22,9 +22,24 @@ class ModuloMonitoramentoEnergetico:
     def calcular_producao_energia_solar(self, incidencia_solar, area_placa_solar, eficiencia_placa_solar):
         producao_energia_solar = {}
         for mes, incidencia in incidencia_solar.items():
-            producao = incidencia * area_placa_solar * eficiencia_placa_solar
+            producao = incidencia * area_placa_solar * eficiencia_placa_solar *30 # 30 é a quantidade de dias no mês
             producao_energia_solar[mes] = producao
         return producao_energia_solar
+    
+    def economia_solar_e_convencional(self, producao_energia_solar, fonte_convencional_energia):
+        gasto_fontes = fonte_convencional_energia * 0.76 #taxa por KWH = 0.76
+        tabela_custo = {}
+
+        for mes, producao in producao_energia_solar.items():
+            custo = producao * 0.76
+            tabela_custo[mes] = custo - gasto_fontes
+
+        #Salvando isso em um arquivo.csv
+        with open("Economia.csv", 'w', newline='') as arquivo_csv:
+            escritor = csv.writer(arquivo_csv)
+            escritor.writerow(['mes', 'custo'])
+            for mes, custo in tabela_custo.items():
+                escritor.writerow([mes, custo])
 
     def salvar_em_arquivo_csv(self, producao_solar):
         with open('producao_energia.csv', 'w', newline='') as arquivo_csv:
@@ -36,7 +51,7 @@ class ModuloMonitoramentoEnergetico:
 
     def verificar_producao(self, producao_solar):
         for mes, producao in producao_solar.items():
-            if producao < 520:  # Limiar para baixa produção 
+            if producao < 15000:  # Limiar para baixa produção 
                 print(f"ALERTA: Baixa produção de energia no mês {mes} ({producao:.2f} kWh)")
 
     def detectar_falha(self, producao_solar):
@@ -52,14 +67,16 @@ gerenciamento = ModuloMonitoramentoEnergetico(API_KEY)
 incidencia_solar = gerenciamento.obter_incidencia_solar(url)
 
 if incidencia_solar:
-    area_placa_solar = 600
-    eficiencia_placa_solar = 0.15  # Eficiência da placa solar (exemplo)
+    area_placa_solar = 600 #300 placas de 2m quadrados.
+    eficiencia_placa_solar = 0.15  # Eficiência da placa solar 
+    fonte_convencional_energia = 15000 # Energia em KWH
 
     producao_energia_solar = gerenciamento.calcular_producao_energia_solar(incidencia_solar, area_placa_solar, eficiencia_placa_solar)
     
     gerenciamento.salvar_em_arquivo_csv(producao_energia_solar)
     gerenciamento.verificar_producao(producao_energia_solar)
     gerenciamento.detectar_falha(producao_energia_solar)
+    gerenciamento.economia_solar_e_convencional(producao_energia_solar, fonte_convencional_energia)
     
     print("Produção de Energia Solar (kWh/mês):")
     for mes, producao in producao_energia_solar.items():

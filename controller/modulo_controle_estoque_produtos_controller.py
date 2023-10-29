@@ -7,7 +7,7 @@ def run():
     while True:
         perguntas = [
             inquirer.List('opcao',
-                          message='Selecione o que deseja fazer:',
+                          message='Selecione o que deseja fazer',
                           choices=[
                               ('1 - Listar estoque', '1'),
                               ('2 - Registrar', '2'),
@@ -36,10 +36,14 @@ def run():
             respostas_registro = inquirer.prompt(perguntas_registro)
             
             nome = respostas_registro['nome']
-            quantidade = float(respostas_registro['quantidade']) 
-            compra_venda = respostas_registro['compra_venda'] == "Compra"
+            try:
+                quantidade = float(respostas_registro['quantidade'])
+                compra_venda = respostas_registro['compra_venda'] == "Compra"
 
-            modulo_controle_estoque_produtos.registrar(nome, quantidade, compra_venda)
+                modulo_controle_estoque_produtos.registrar(nome, quantidade, compra_venda)
+            except ValueError:
+                print("Preencha os valores corretamente! \n")
+            
         elif opcao == '3':
             print('Saindo do módulo de controle de estoque de produtos...')
             break

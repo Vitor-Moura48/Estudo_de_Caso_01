@@ -28,7 +28,10 @@ class ModuloControleEstoqueProdutos:
 
         # se não, é uma venda, reduz a quantidade do produto
         else:
-            estoque[nome_produto] -= quantidade
+            if estoque[nome_produto][0] >= quantidade:
+                estoque[nome_produto] -= quantidade
+            else:
+                print("Não é possível fazer a venda! Estoque indisponível \n")
         
         # confere se o estoque chegou em um nível mínimo
         for produto in estoque.columns:

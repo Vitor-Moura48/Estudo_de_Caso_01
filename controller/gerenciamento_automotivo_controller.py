@@ -1,7 +1,6 @@
 from . import *
 from model.gerenciamento_automotivo import ModuloGerenciamentoAutomotivo
 
-init()
 cor_mensagem_erro = Fore.RED
 
 modulo_gerenciamento_automotivo = ModuloGerenciamentoAutomotivo()
@@ -33,9 +32,9 @@ def run():
 
         elif opcao == '2':
             perguntas_registro = [
-                inquirer.List('pergunt1', message='Pergunta1', choices=['gasolina', 'alcool', 'diesel', 'energia_solar']),
+                inquirer.List('pergunt1', message='Pergunta1', choices=['1', '2', '3', '4']),
                 inquirer.Text('pergunt2', message='Pergunta que tem que digitar'),
-                inquirer.List('pergunt3', message='Pergunta tem que escolher', choices=['Compra', 'Venda']),
+                inquirer.List('pergunt3', message='Pergunta tem que escolher', choices=['1', '2']),
             ]
             respostas_registro = inquirer.prompt(perguntas_registro)
             

@@ -26,7 +26,7 @@ class ModuloGerenciamento:
         # cria os dados do registro:
         with open('Registros.csv', 'w', newline='') as arquivo_csv:
             escritor = csv.writer(arquivo_csv)
-            escritor.writerow(['Registro', 'Pecas', 'Tempo', 'Dia', 'Satifascao do cliente'])
+            escritor.writerow(['Mecanico','Cliente','Modelo do Carro','Modelo do carro', 'Pecas', 'Tempo', 'Dia', 'Satifascao do cliente',])
             escritor.writerows(self.registro)
 
     def agendar(self, nome, horas):
@@ -57,13 +57,15 @@ class ModuloGerenciamento:
             if servico:
                 print("Serviço feito!")
                 
-                registro = input("Registro detalhado: ")
+                cliente_nome = input("Nome do cliente: ")
+                modelo = input("Modelo do carro: ")
+                registro = input('Registro: ')
                 pecas = input("Peças utilizadas: ")
                 tempo = float(input("Tempo de execução: "))
                 dia = int(input("Dia do serviço: "))
-                cliente = int(input("Nível de satifasção: "))
+                satisfacao = int(input("Nível de satifasção (0 a 5): "))
                 
-                detalhado = [nome,registro,pecas,tempo,dia,cliente]
+                detalhado = [nome,cliente_nome,modelo,registro,pecas,tempo,dia,satisfacao]
                 
                 self.registro.append(detalhado)
                 self.salvar_dados2()
@@ -87,8 +89,8 @@ class ModuloGerenciamento:
                 satisfacao = 0
                 quant_mecanicos = 0
                 for linha in leitor:
-                    tempo += float(linha[3])
-                    satisfacao += float(linha[5])
+                    tempo += float(linha[5])
+                    satisfacao += float(linha[7])
                     
                     quant_mecanicos += 1
                     
@@ -106,15 +108,14 @@ class ModuloGerenciamento:
         except FileNotFoundError:
             print('Arquivo não encontrado')   
     
-gerenciamento = ModuloGerenciamento()
+    def historico(self, cliente, veiculo):
+        try:
+            with open('Registros.csv', 'r', newline='') as arquivo_csv:
+                leitor = csv.reader(arquivo_csv)
+                for linha in leitor:
+                    if linha[1] == cliente and linha[2] == veiculo:
+                        print(f"Nome: {linha[1]}\nModelo do Carro: {linha[2]} \nPeças: {linha[4]}\nTempo: {linha[5]}\nDia: {linha[6]}\nSatisfação do Cliente: {linha[7]}")
+        except FileNotFoundError:
+            print("Arquivo não encontrado")
 
-gerenciamento.agendar('Anderson','9')
-gerenciamento.agendar('Anderson','10')
-gerenciamento.agendar('roberto','10')
-gerenciamento.agendar('roberto','12')
-gerenciamento.agendar('junior','12')
-gerenciamento.agendar('junior','13')
-gerenciamento.feito_ou_desmarcar('Anderson','10',True)
-gerenciamento.feito_ou_desmarcar('roberto','12',True)
-gerenciamento.feito_ou_desmarcar('junior','13',True)
-gerenciamento.desempenho()
+

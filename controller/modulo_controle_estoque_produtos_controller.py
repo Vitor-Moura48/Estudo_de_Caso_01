@@ -1,5 +1,9 @@
 import inquirer
 from model.modulo_controle_estoque_produtos import ModuloControleEstoqueProdutos
+from colorama import init, Fore, Style
+
+init()
+cor_mensagem_erro = Fore.RED
 
 modulo_controle_estoque_produtos = ModuloControleEstoqueProdutos()
 
@@ -42,7 +46,7 @@ def run():
 
                 modulo_controle_estoque_produtos.registrar(nome, quantidade, compra_venda)
             except ValueError:
-                print("Preencha os valores corretamente! \n")
+                print(f"{cor_mensagem_erro}Preencha os valores corretamente! {Style.RESET_ALL}\n")
             
         elif opcao == '3':
             print('Saindo do módulo de controle de estoque de produtos...')

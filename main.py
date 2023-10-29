@@ -28,7 +28,7 @@ try:
                             (f'3 - Módulo de Gestão de Mercearia', '3'),
                             (f'4 - Módulo de Monitoramento Energético', '4'),
                             (f'5 - Módulo de Loja de Conveniência', '5'),
-                            (f'6 - Encerrar a Sessão no Sistema', '7')
+                            (f'6 - Encerrar a Sessão no Sistema', '6')
                         ])
         ]
 

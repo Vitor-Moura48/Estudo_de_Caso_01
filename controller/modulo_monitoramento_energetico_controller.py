@@ -25,13 +25,48 @@ def run():
 
         # Aqui temos uma estrutura de decisão para cada opção do menu
         if opcao == '1':
-            modulo_monitoramento_energetico.obter_incidencia_solar
-            modulo_monitoramento_energetico.calcular_producao_energia_solar
-            modulo_monitoramento_energetico.verificar_producao
-            modulo_monitoramento_energetico.detectar_falha
+            API_KEY = 'h1sZGSoHQjEe3MaoZ3GxMPeYPfLVMjnHd8fbphfD'
+
+            url = f'https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key={API_KEY}&lat=40&lon=-105'
+
+            
+            incidencia_solar = modulo_monitoramento_energetico.obter_incidencia_solar(url)
+
+            if incidencia_solar:
+                area_placa_solar = 600 #300 placas de 2m quadrados.
+                eficiencia_placa_solar = 0.15  # Eficiência da placa solar 
+                fonte_convencional_energia = 15000 # Energia em KWH
+
+                producao_energia_solar = modulo_monitoramento_energetico.calcular_producao_energia_solar(incidencia_solar, area_placa_solar, eficiencia_placa_solar)
+                
+                modulo_monitoramento_energetico.salvar_em_arquivo_csv(producao_energia_solar)
+                modulo_monitoramento_energetico.verificar_producao(producao_energia_solar)
+                modulo_monitoramento_energetico.detectar_falha(producao_energia_solar)
+                
+                print("Produção de Energia Solar (kWh/mês):")
+                for mes, producao in producao_energia_solar.items():
+                    print(f"Mês {mes}: {producao:.2f} kWh")
+
+                print("Dados salvos em 'producao_energia.csv'")
+            else:
+                print("Não foi possível obter dados de incidência solar.")
+
         
         elif opcao == '2':
-            modulo_monitoramento_energetico.economia_solar_e_convencional
+            API_KEY = 'h1sZGSoHQjEe3MaoZ3GxMPeYPfLVMjnHd8fbphfD'
+
+            url = f'https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key={API_KEY}&lat=40&lon=-105'
+
+            incidencia_solar = modulo_monitoramento_energetico.obter_incidencia_solar(url)
+
+            if incidencia_solar:
+                area_placa_solar = 600 #300 placas de 2m quadrados.
+                eficiencia_placa_solar = 0.15  # Eficiência da placa solar 
+                fonte_convencional_energia = 15000 # Energia em KWH
+
+                producao_energia_solar = modulo_monitoramento_energetico.calcular_producao_energia_solar(incidencia_solar, area_placa_solar, eficiencia_placa_solar)
+
+                modulo_monitoramento_energetico.economia_solar_e_convencional(producao_energia_solar, fonte_convencional_energia)
 
         elif opcao == '3':
             print('Saindo do módulo de monitoramento energético...')

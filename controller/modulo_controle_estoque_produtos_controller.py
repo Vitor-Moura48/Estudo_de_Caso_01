@@ -9,7 +9,7 @@ def run():
             inquirer.List('opcao',
                           message='Selecione o que deseja fazer:',
                           choices=[
-                              ('1 - Adicionar algo aqui', '1'),
+                              ('1 - Listar estoque', '1'),
                               ('2 - Registrar', '2'),
                               ('3 - Sair do módulo', '3')
                           ])
@@ -25,18 +25,21 @@ def run():
 
         # Aqui temos uma estrutura de decisão para cada opção do menu
         if opcao == '1':
-            modulo_controle_estoque_produtos.run()
+            modulo_controle_estoque_produtos.listar_estoque()
 
         elif opcao == '2':
             perguntas_registro = [
-                inquirer.Text('nome', message='Digite o nome do produto:'),
-                inquirer.Text('quantidade', message='Digite a quantidade do produto:')
+                inquirer.List('nome', message='Digite o nome do produto', choices=['gasolina', 'alcool', 'diesel', 'energia_solar']),
+                inquirer.Text('quantidade', message='Digite a quantidade do produto'),
+                inquirer.List('compra_venda', message='Escolha uma ação', choices=['Compra', 'Venda']),
             ]
             respostas_registro = inquirer.prompt(perguntas_registro)
             
             nome = respostas_registro['nome']
-            quantidade = respostas_registro['quantidade']
-            modulo_controle_estoque_produtos.registrar(nome, quantidade)
+            quantidade = float(respostas_registro['quantidade']) 
+            compra_venda = respostas_registro['compra_venda'] == "Compra"
+
+            modulo_controle_estoque_produtos.registrar(nome, quantidade, compra_venda)
         elif opcao == '3':
             print('Saindo do módulo de controle de estoque de produtos...')
             break

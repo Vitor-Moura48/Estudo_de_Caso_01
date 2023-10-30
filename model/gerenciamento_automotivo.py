@@ -4,7 +4,7 @@ class ModuloGerenciamentoAutomotivo:
     def __init__(self):
         self.arquivo_mecanico = "data/mecanicos.csv"
         self.arquivo_registros = "data/registros.csv"
-        self.arquivo_mecanico = 'data/medias_por_clientes.csv'
+        self.arquivo_media_cliente = 'data/medias_por_clientes.csv'
         self.mecanicos = [['Anderson'],['Roberto'],['Fernando']]
         self.registro = []
         self.media = []

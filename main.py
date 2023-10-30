@@ -50,7 +50,8 @@ try:
                 from controller.gerenciamento_automotivo_controller import run
                 run()
             case '3':
-                print("Tese")
+                from controller.caixa_bomba import run
+                run()
             case '4':
                 from controller.modulo_monitoramento_energetico_controller import run
                 run()

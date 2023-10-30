@@ -3,8 +3,8 @@ import requests
 import json
 
 class ModuloMonitoramentoEnergetico:
-    def __init__(self, api_key):
-        self.api_key = api_key
+    def __init__(self):
+        url = f'https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key={API_KEY}&lat=40&lon=-105'
 
     def obter_incidencia_solar(self, url):
         try:
@@ -36,15 +36,17 @@ class ModuloMonitoramentoEnergetico:
 
         #Salvando isso em um arquivo.csv
         with open("Economia.csv", 'w', newline='') as arquivo_csv:
+            print(' |mês|   |custo|')
             escritor = csv.writer(arquivo_csv)
             escritor.writerow(['mes', 'custo'])
             for mes, custo in tabela_custo.items():
                 escritor.writerow([mes, custo])
+                print([mes, custo])
 
     def salvar_em_arquivo_csv(self, producao_solar):
         with open('producao_energia.csv', 'w', newline='') as arquivo_csv:
             escritor = csv.writer(arquivo_csv)
-            escritor.writerow(['Mês', 'Produção Solar (kWh)'])
+            escritor.writerow(['Mes', 'Producao Solar (kWh)'])
             for mes, producao in producao_solar.items():
                 producao_solar_mes = producao_solar[mes]
                 escritor.writerow([mes, f"{producao:.2f}"])
@@ -63,25 +65,3 @@ API_KEY = 'h1sZGSoHQjEe3MaoZ3GxMPeYPfLVMjnHd8fbphfD'
 
 url = f'https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key={API_KEY}&lat=40&lon=-105'
 
-gerenciamento = ModuloMonitoramentoEnergetico(API_KEY)
-incidencia_solar = gerenciamento.obter_incidencia_solar(url)
-
-if incidencia_solar:
-    area_placa_solar = 600 #300 placas de 2m quadrados.
-    eficiencia_placa_solar = 0.15  # Eficiência da placa solar 
-    fonte_convencional_energia = 15000 # Energia em KWH
-
-    producao_energia_solar = gerenciamento.calcular_producao_energia_solar(incidencia_solar, area_placa_solar, eficiencia_placa_solar)
-    
-    gerenciamento.salvar_em_arquivo_csv(producao_energia_solar)
-    gerenciamento.verificar_producao(producao_energia_solar)
-    gerenciamento.detectar_falha(producao_energia_solar)
-    gerenciamento.economia_solar_e_convencional(producao_energia_solar, fonte_convencional_energia)
-    
-    print("Produção de Energia Solar (kWh/mês):")
-    for mes, producao in producao_energia_solar.items():
-        print(f"Mês {mes}: {producao:.2f} kWh")
-
-    print("Dados salvos em 'producao_energia.csv'")
-else:
-    print("Não foi possível obter dados de incidência solar.")

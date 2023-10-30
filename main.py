@@ -47,7 +47,8 @@ try:
                 from controller.modulo_controle_estoque_produtos_controller import run
                 run()
             case '2':
-                print("Tese")
+                from controller.gerenciamento_automotivo_controller import run
+                run()
             case '3':
                 print("Tese")
             case '4':

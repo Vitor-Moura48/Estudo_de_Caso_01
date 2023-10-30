@@ -2,6 +2,9 @@ import csv
 
 class ModuloGerenciamentoAutomotivo:
     def __init__(self):
+        self.arquivo_mecanico = "data/mecanicos.csv"
+        self.arquivo_registros = "data/registros.csv"
+        self.arquivo_mecanico = 'data/medias_por_clientes.csv'
         self.mecanicos = [['Anderson'],['Roberto'],['Fernando']]
         self.registro = []
         self.media = []
@@ -10,21 +13,21 @@ class ModuloGerenciamentoAutomotivo:
     def carregar_dados(self):
         # verificação se existe o arquivo dos mecânicos:
         try:
-            with open('Mecanicos.csv' ,'r', newline='') as arquivo_csv:
+            with open(self.arquivo_mecanico ,'r', newline='') as arquivo_csv:
                 leitor = csv.reader(arquivo_csv)
         except FileNotFoundError:
             print('Arquivo não encontrado')
 
     def salvar_dados(self):
         # cria os dados dos mecânicos e os horários:
-        with open('Mecanicos.csv', 'w', newline='') as arquivo_csv:
+        with open(self.arquivo_mecanico, 'w', newline='') as arquivo_csv:
             escritor = csv.writer(arquivo_csv)
             escritor.writerow(['Mecanico', 'Horas marcadas'])
             escritor.writerows(self.mecanicos)
 
     def salvar_dados2(self):
         # cria os dados do registro:
-        with open('Registros.csv', 'w', newline='') as arquivo_csv:
+        with open(self.arquivo_registros, 'w', newline='') as arquivo_csv:
             escritor = csv.writer(arquivo_csv)
             escritor.writerow(['Mecanico','Cliente','Modelo do Carro','Modelo do carro', 'Pecas', 'Tempo', 'Dia', 'Satifascao do cliente',])
             escritor.writerows(self.registro)
@@ -88,7 +91,7 @@ class ModuloGerenciamentoAutomotivo:
 
     def desempenho(self):
         try:
-            with open('Registros.csv' ,'r', newline='') as arquivo_csv:
+            with open(self.arquivo_registros ,'r', newline='') as arquivo_csv:
                 leitor = csv.reader(arquivo_csv)
                 next(leitor)
                 tempo = 0
@@ -106,7 +109,7 @@ class ModuloGerenciamentoAutomotivo:
                 lista = [media_tempo,media_satisfacao]    
                 
                 self.media.append(lista)
-                with open('Medias_por_clientes.csv', 'w', newline='') as arquivo_csv3:
+                with open(self.arquivo_media_cliente, 'w', newline='') as arquivo_csv3:
                     escritor = csv.writer(arquivo_csv3)
                     escritor.writerow(['Media-Execucao','Media-Satisfacao'])
                     escritor.writerows(self.media)
@@ -116,7 +119,7 @@ class ModuloGerenciamentoAutomotivo:
     
     def historico(self, cliente, veiculo):
         try:
-            with open('Registros.csv', 'r', newline='') as arquivo_csv:
+            with open(self.arquivo_registros, 'r', newline='') as arquivo_csv:
                 leitor = csv.reader(arquivo_csv)
                 for linha in leitor:
                     if linha[1] == cliente and linha[2] == veiculo:

@@ -27,7 +27,7 @@ try:
                             (f'2 - Módulo de Gerenciamento de Serviços Automotivos', '2'),
                             (f'3 - Módulo de Gestão de Mercearia', '3'),
                             (f'4 - Módulo de Monitoramento Energético', '4'),
-                            (f'5 - Módulo de Loja de Conveniência', '5'),
+                            (f'5 - Módulo de Relatorios', '5'),
                             (f'6 - Encerrar a Sessão no Sistema', '6')
                         ])
         ]
@@ -50,12 +50,15 @@ try:
                 from controller.gerenciamento_automotivo_controller import run
                 run()
             case '3':
-                print("Tese")
+                from controller.caixa_bomba import run
+                run()
             case '4':
                 from controller.modulo_monitoramento_energetico_controller import run
                 run()
             case '5':
-                print("Tese")
+                from controller.modulo_relatorio_analises import *
+                from controller.modulo_relatorio_analises_controller import run
+                run()
             case '6':
                 print(f'{cor_titulo}👋 {cor_mensagem}Encerrando a sessão no sistema...{Style.RESET_ALL}')
                 break

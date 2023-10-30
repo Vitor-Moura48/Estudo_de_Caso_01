@@ -2,7 +2,7 @@ import csv
 
 class ModuloGerenciamentoAutomotivo:
     def __init__(self):
-        self.mecanicos = [['Anderson'],['roberto'],['junior']]
+        self.mecanicos = [['Anderson'],['Roberto'],['Fernando']]
         self.registro = []
         self.media = []
         self.carregar_dados()  
@@ -30,40 +30,46 @@ class ModuloGerenciamentoAutomotivo:
             escritor.writerows(self.registro)
 
     def agendar(self, nome, horas):
-        # o mecânico existe:
-            mec_existente =  None
-            for mec in self.mecanicos:
-                if mec[0] == nome:
-                    mec_existente = mec
-                    break
-
-            if mec_existente:
-            # Verifica se o horário já existe no mecânico:
-                if horas in mec_existente[1:]:
-                    return print("Horário indisponível")
-            else:
-                mec_existente.append(horas)
+        # Verifica se o mecânico existe:
+        mec_existente = None
+        for mec in self.mecanicos:
             if mec[0] == nome:
-                # Cria uma nova lista contendo as horas:
-                horas_lista = [horas]
-                mec.extend(horas_lista)
-            
+                mec_existente = mec
+                break
+
+        if mec_existente:
+            # Verifica se o horário já existe no mecânico:
+            if horas in mec_existente[1:]:
+                print("Horário indisponível")
             else:
-            # Se o mecânico não existe:
-                return print("Mecânico inexistente na nossa lista")
-            self.salvar_dados()  
+                # Se o horário não existe, adicione-o ao mecânico existente
+                mec_existente.append(horas)
+                print(f"Horário agendado com sucesso para {nome} às {horas}.")
+        else:
+            # Se o mecânico não existe, crie um novo mecânico com as horas
+            novo_mecanico = [nome, horas]
+            self.mecanicos.append(novo_mecanico)
+            print(f"Novo mecânico {nome} criado com horário às {horas}.")
+        
+        self.salvar_dados()
+
     
     def feito_ou_desmarcar(self, nome, horas,servico):
-            if servico:
+            if servico == 'Feito':
                 print("Serviço feito!")
                 
-                cliente_nome = input("Nome do cliente: ")
-                modelo = input("Modelo do carro: ")
-                registro = input('Registro: ')
-                pecas = input("Peças utilizadas: ")
+                cliente_nome = input("Nome do cliente*: ")
+                modelo = input("Modelo do carro*: ")
+                registro = input('Registro detalhado*: ')
+                pecas = input("Peças utilizadas*: ")
+
                 tempo = float(input("Tempo de execução: "))
                 dia = int(input("Dia do serviço: "))
-                satisfacao = int(input("Nível de satifasção (0 a 5): "))
+                satisfacao = int(input("Nível de satisfação (0 a 5): "))
+
+                while not (0 <= satisfacao <= 5):
+                    print("O nível de satisfação deve estar entre 0 e 5.")
+                    satisfacao = int(input("Nível de satisfação (0 a 5): "))
                 
                 detalhado = [nome,cliente_nome,modelo,registro,pecas,tempo,dia,satisfacao]
                 
@@ -114,7 +120,7 @@ class ModuloGerenciamentoAutomotivo:
                 leitor = csv.reader(arquivo_csv)
                 for linha in leitor:
                     if linha[1] == cliente and linha[2] == veiculo:
-                        print(f"Nome: {linha[1]}\nModelo do Carro: {linha[2]} \nPeças: {linha[4]}\nTempo: {linha[5]}\nDia: {linha[6]}\nSatisfação do Cliente: {linha[7]}")
+                        print(f"Nome: {linha[1]}\nModelo do Carro: {linha[2]}\nRegistro detalhado: {linha[3]}\nPeças: {linha[4]}\nTempo: {linha[5]}\nDia: {linha[6]}\nSatisfação do Cliente: {linha[7]}")
         except FileNotFoundError:
             print("Arquivo não encontrado")
 

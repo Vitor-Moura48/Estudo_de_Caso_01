@@ -11,9 +11,10 @@ def run():
             inquirer.List('opcao',
                           message='Selecione o que deseja fazer',
                           choices=[
-                              ('1 - Coloque algo', '1'),
-                              ('2 - Coloque algo', '2'),
-                              ('3 - Sair do módulo', '3')
+                              ('1 - Agendar o horário', '1'),
+                              ('2 - Finalizar serviço ou desmarcar' , '2'),
+                              ('3 - Acessar seu histórico', '3'),
+                              ('4 - Sair do módulo', '4')
                           ])
         ]
 
@@ -27,21 +28,57 @@ def run():
 
         # Aqui temos uma estrutura de decisão para cada opção do menu
         if opcao == '1':
-           # O que faz
-           pass
-
-        elif opcao == '2':
-            perguntas_registro = [
-                inquirer.List('pergunt1', message='Pergunta1', choices=['1', '2', '3', '4']),
-                inquirer.Text('pergunt2', message='Pergunta que tem que digitar'),
-                inquirer.List('pergunt3', message='Pergunta tem que escolher', choices=['1', '2']),
+            perguntas_agendamento = [
+                inquirer.List('nome_mecanico', 
+                    message='Escolha um mecânico:',
+                    choices=['Anderson', 'Roberto', 'Fernando']
+                ),
+                inquirer.Text('horas', message='Digite a hora para agendar'),
             ]
-            respostas_registro = inquirer.prompt(perguntas_registro)
+
+            respostas_agendamento = inquirer.prompt(perguntas_agendamento)
+
+            nome_mecanico = respostas_agendamento['nome_mecanico']
+            horas = respostas_agendamento['horas']
+
+            modulo_gerenciamento_automotivo.agendar(nome_mecanico, horas)
+ 
+        
+        elif opcao == '2':
+            perguntas_feito_desmarcar = [
+                inquirer.List('nome_mecanico', 
+                    message='Escolha um mecânico',
+                    choices=['Anderson', 'Roberto', 'Fernando']
+                ),
+                inquirer.Text('horas', message='Digite a hora que foi agendado'),
+                inquirer.List('feito_desmarcar', 
+                    message='Escolha uma opção',
+                    choices=['Feito', 'Desmarcar']
+                )
+            ]
+
+            respostas = inquirer.prompt(perguntas_feito_desmarcar)
             
-            # Como pegar os dados inseridos
-            pergunt2 = respostas_registro['pergunt2']
-            print(f"Sua resposta é {pergunt2}")
-            
+            nome_mecanico = respostas['nome_mecanico']
+            horas = respostas['horas']
+            resposta = respostas['feito_desmarcar']
+
+            modulo_gerenciamento_automotivo.feito_ou_desmarcar(nome_mecanico,horas,resposta)
+            modulo_gerenciamento_automotivo.desempenho()
+
         elif opcao == '3':
+            perguntas_historico = [inquirer.Text('cliente', 
+                                        message='Nome do cliente'),
+                                        inquirer.Text('carro', 
+                                        message='Modelo do carro')
+                                         ]
+
+            respostas = inquirer.prompt(perguntas_historico)
+
+            cliente = respostas['cliente']
+            carro = respostas['carro'] 
+            
+            modulo_gerenciamento_automotivo.historico(cliente,carro)    
+        elif opcao == '4':
             print('Saindo do módulo de gerenciamento de serviços automotivos...')
             break

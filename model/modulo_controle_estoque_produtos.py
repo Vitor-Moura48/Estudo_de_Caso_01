@@ -1,4 +1,9 @@
 from . import *
+from colorama import init, Fore, Style
+
+init()
+cor_mensagem_erro = Fore.RED
+cor_estoque = Fore.GREEN
 
 class ModuloControleEstoqueProdutos:
     
@@ -28,7 +33,10 @@ class ModuloControleEstoqueProdutos:
 
         # se não, é uma venda, reduz a quantidade do produto
         else:
-            estoque[nome_produto] -= quantidade
+            if estoque[nome_produto][0] >= quantidade:
+                estoque[nome_produto] -= quantidade
+            else:
+                print(f"{cor_mensagem_erro} Não é possível fazer a venda! Estoque indisponível {Style.RESET_ALL}\n")
         
         # confere se o estoque chegou em um nível mínimo
         for produto in estoque.columns:
@@ -39,12 +47,12 @@ class ModuloControleEstoqueProdutos:
     
     # emitir alertas quando os níveis de estoque atigem um limite mínimo
     def emitir_alerta(self, nome_produto):
-        print(f"{nome_produto}: Nível de estoque baixo!")
+        print(f"{cor_mensagem_erro}{nome_produto}: Nível de estoque baixo!{Style.RESET_ALL}")
     
     def listar_estoque(self):
         estoque = pd.read_csv(self.arquivo_csv)
     
         for produto in estoque.columns:
-            print(f"{produto}: {estoque[produto][0]}")
+            print(f"{cor_estoque}{produto}: {estoque[produto][0]}{Style.RESET_ALL}")
         print()
 

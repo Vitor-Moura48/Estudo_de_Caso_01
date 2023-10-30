@@ -43,3 +43,9 @@ Para executar o projeto, siga os passos abaixo:
    ```
 
 Isso é tudo! O projeto agora está em funcionamento 🚀
+
+## Contribuidores
+| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/91148044?v=4" width=115><br><sub>Tiago-msC(Tiago Manoel)</sub>](https://github.com/Tiago-msC) |  [<img loading="lazy" src="https://avatars.githubusercontent.com/u/134803634?v=4" width=115><br><sub>Ott-on(Otton Vinícius)</sub>](https://github.com/Ott-on) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/90641243?v=4" width=115><br><sub>Vitor-Moura48(Vitor Gabriel)</sub>](https://github.com/Vitor-Moura48) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/140290416?v=4" width=115><br><sub>Rafaelsn11(Rafael Santana)</sub>](https://github.com/Rafaelsn11) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/144070176?v=4" width=115><br><sub>CESF00(Carlos Erbe)</sub>](https://github.com/CESF00) |
+| :---: | :---: | :---: | :---: | :---: |
+
+

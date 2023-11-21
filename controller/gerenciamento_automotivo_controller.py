@@ -59,6 +59,7 @@ def run():
 
             respostas = inquirer.prompt(perguntas_feito_desmarcar)
             
+            
             nome_mecanico = respostas['nome_mecanico']
             horas = respostas['horas']
             resposta = respostas['feito_desmarcar']

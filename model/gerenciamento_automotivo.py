@@ -89,6 +89,34 @@ class ModuloGerenciamentoAutomotivo:
                     break
             self.salvar_dados()
 
+    def quicksort(self,lista):
+        if len(lista) <= 1:
+            return lista
+        else:
+            pivo = lista[len(lista) // 2]
+            esquerda = [i for i in lista if i[6] < pivo[6]]
+            meio = [i for i in lista if i[6] == pivo[6]]
+            direita = [i for i in lista if i[6] > pivo[6]]
+            return self.quicksort(esquerda) + meio + self.quicksort(direita)
+
+    def ler_csv(self):
+        with open(self.arquivo_registros,'r') as arquivo_csv:
+            leitor = csv.reader(arquivo_csv)
+            next(leitor)
+            dados = list(leitor)
+            return dados
+
+    def escrever_csv(self,dados):
+        with open(self.arquivo_registros,'w',newline='') as arquivo_csv:
+            escritor = csv.writer(arquivo_csv)
+            escritor.writerow(['Mecanico','Cliente','Modelo do Carro','Modelo do carro', 'Pecas', 'Tempo', 'Dia', 'Satifascao do cliente',])
+            escritor.writerows(dados)       
+
+    def ordenado(self):
+        dados = self.ler_csv()
+        quick_dados = self.quicksort(dados)
+        self.escrever_csv(quick_dados)
+    
     def desempenho(self):
         try:
             with open(self.arquivo_registros ,'r', newline='') as arquivo_csv:
@@ -128,3 +156,5 @@ class ModuloGerenciamentoAutomotivo:
             print("Arquivo não encontrado")
 
 
+modulo = ModuloGerenciamentoAutomotivo()
+modulo.ordenado()

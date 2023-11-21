@@ -64,6 +64,7 @@ def run():
             resposta = respostas['feito_desmarcar']
 
             modulo_gerenciamento_automotivo.feito_ou_desmarcar(nome_mecanico,horas,resposta)
+            modulo_gerenciamento_automotivo.ordenado()
             modulo_gerenciamento_automotivo.desempenho()
 
         elif opcao == '3':

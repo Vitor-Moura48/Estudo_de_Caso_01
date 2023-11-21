@@ -6,6 +6,7 @@ class ModuloMonitoramentoEnergetico:
     def __init__(self):
         self.arquivo_economia = "data/economia.csv"
         self.arquivo_producao_energia = "data/producao_energia.csv"
+        arquivo_producao_energia_ordenado = "data/producao_energia_ordenado.csv"
         url = f'https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key={API_KEY}&lat=40&lon=-105'
 
     def obter_incidencia_solar(self, url):
@@ -62,6 +63,39 @@ class ModuloMonitoramentoEnergetico:
         if None in producao_solar.values():
             print("ALERTA: Falha na obtenção dos dados de produção de energia.")
 
+    def quicksort(self,lista):
+        if len(lista) <= 1:
+            return lista
+        else:
+            pivo = lista[len(lista) // 2]
+            esquerda = [i for i in lista if i[1] < pivo[1]]
+            meio = [i for i in lista if i[1] == pivo[1]]
+            direita = [i for i in lista if i[1] > pivo[1]]
+            return self.quicksort(esquerda) + meio + self.quicksort(direita)
+
+    def ler_csv(self):
+        with open(self.arquivo_economia,'r') as arquivo_csv:
+            leitor = csv.reader(arquivo_csv)
+            next(leitor)
+            dados = list(leitor)
+            return dados
+
+    def escrever_csv(self,dados):
+        with open(self.arquivo_economia,'w',newline='') as arquivo_csv:
+            escritor = csv.writer(arquivo_csv)
+            escritor.writerow(['Mes','Custo (kWh)'])
+            escritor.writerows(dados)       
+
+    def ordenado(self):
+        dados = self.ler_csv()
+        quick_dados = self.quicksort(dados)
+        self.escrever_csv(quick_dados)
+        with open(self.arquivo_economia,'r',newline='') as arquivo_csv:
+            leitor = csv.reader(arquivo_csv)
+            print('|Mes | Custo (kWh)|')
+            for i in leitor:
+                print(i)
+          
 # Chave da API
 API_KEY = 'h1sZGSoHQjEe3MaoZ3GxMPeYPfLVMjnHd8fbphfD'
 

@@ -48,6 +48,8 @@ def run():
             except ValueError:
                 print(f"{cor_mensagem_erro}Preencha os valores corretamente! {Style.RESET_ALL}\n")
             
+            
+            
         elif opcao == '3':
             print('Saindo do módulo de controle de estoque de produtos...')
             break

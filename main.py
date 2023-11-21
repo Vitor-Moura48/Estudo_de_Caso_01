@@ -3,8 +3,13 @@ from colorama import init, Fore, Style
 
 init()
 
+
 # Definição de cores
 cor_titulo = Fore.GREEN
+
+
+
+
 cor_pergunta = Fore.WHITE
 cor_resposta = Fore.MAGENTA
 cor_mensagem = Fore.YELLOW
